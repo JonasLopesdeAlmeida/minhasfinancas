@@ -66,6 +66,25 @@ public class Lancamento  implements Serializable  {
 	@Enumerated(value = EnumType.STRING)
 	private StatusLancamento status;
 
+	
+	public Lancamento() {
+		
+	}
+
+	public Lancamento(long id, String descricao, Integer mes, Integer ano, Usuario usuario, BigDecimal valor,
+			LocalDate dataCadastro, TipoLancamento tipo, StatusLancamento status) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.mes = mes;
+		this.ano = ano;
+		this.usuario = usuario;
+		this.valor = valor;
+		this.dataCadastro = dataCadastro;
+		this.tipo = tipo;
+		this.status = status;
+	}
+
 	public long getId() {
 		return id;
 	}

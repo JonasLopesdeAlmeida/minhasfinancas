@@ -31,6 +31,18 @@ public class Usuario implements Serializable{
 	@Column(name = "senha")
 	private String senha;
 
+    public Usuario() {
+    	
+    }
+
+	public Usuario(long id, String nome, String email, String senha) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -107,8 +119,6 @@ public class Usuario implements Serializable{
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + "]";
 	}
-	
-	//private Date data;
 	
 	
 	
