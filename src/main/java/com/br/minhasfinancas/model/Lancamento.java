@@ -54,7 +54,7 @@ public class Lancamento  implements Serializable  {
 	
 	//aqui deixo um exemplo que eu posso definir minha coluna do banco com um nome diferente do atributo da classe.
 	@Column(name = "data_cadastro")
-	@Convert(converter = Jsr310Converters.DateToLocalDateConverter.class)
+	//@Convert(converter = Jsr310Converters.DateToLocalDateConverter.class)
 	private LocalDate dataCadastro;
 	
 	@Column(name = "tipo")

@@ -9,9 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Builder;
+
 @Entity
 //essa anotacao @Table eu uso caso eu ja tenha criado a minha tabela no banco. entao eu so digo que esses dados vao para essa tabela e para o schema que ela pertence.
 @Table(name= "usuario", schema = "financas")
+@Builder
 public class Usuario implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -119,6 +122,7 @@ public class Usuario implements Serializable{
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + "]";
 	}
+
 	
 	
 	
