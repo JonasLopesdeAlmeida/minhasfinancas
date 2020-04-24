@@ -4,6 +4,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,9 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.br.minhasfinancas.model.Usuario;
 
 //uma classe de teste
-@SpringBootTest
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
+@DataJpaTest//essa anotação cria uma instancia de um banco em memória e ao finalizar a bateria de testes ela deleta da memória.
+@AutoConfigureTestDatabase(replace = Replace.NONE)//essa anotação preserva as configurções do banco.
 public class UsuarioRepositoryTest {
 
 	// fazendo a injecao automatica da classe.
