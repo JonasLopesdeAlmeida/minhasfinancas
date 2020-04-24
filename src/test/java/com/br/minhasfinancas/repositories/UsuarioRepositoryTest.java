@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.br.minhasfinancas.model.Usuario;
@@ -12,6 +13,7 @@ import com.br.minhasfinancas.model.Usuario;
 //uma classe de teste
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@ActiveProfiles("test")
 public class UsuarioRepositoryTest {
 
 	// fazendo a injecao automatica da classe.
@@ -38,5 +40,19 @@ public class UsuarioRepositoryTest {
 		
 	
 	}
-
+     
+	@Test
+	public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComOEmail() {
+		
+		//cenario
+		//aqui e necessario ja levantar o test deletando qualquer usuario que eu tiver na minha base.
+		//assim o resultado deve retornar falso pois vai porcurar um email que nao esta cadastrado.
+		repo.deleteAll();
+		
+		//ação
+		boolean resultado = repo.existsByEmail("usuario@email.com");
+	
+		//verificacao
+		Assertions.assertThat(resultado).isFalse();
+	}
 }
