@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -23,6 +23,12 @@ public class UsuarioRepositoryTest {
 	// fazendo a injecao automatica da classe.
 	@Autowired
 	UsuarioRepositoty repo;
+	
+	@Autowired
+	//classe responsável por fazer as operações na base de Dados.
+	//obs: esse EntityManager é configurado apenas para testes.
+	TestEntityManager entityManager;
+	
 
 	// criando um teste
 	// todos os metodos de teste sao do tipo retorno void.
@@ -33,7 +39,7 @@ public class UsuarioRepositoryTest {
 
 		// cenario
 	    Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
-		repo.save(usuario);
+		entityManager.persist(usuario);
 		
 		
 		//acao
@@ -49,9 +55,7 @@ public class UsuarioRepositoryTest {
 	public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComOEmail() {
 		
 		//cenario
-		//aqui e necessario ja levantar o test deletando qualquer usuario que eu tiver na minha base.
-		//assim o resultado deve retornar falso pois vai porcurar um email que nao esta cadastrado.
-		repo.deleteAll();
+		//eu não preciso mais do cenario de deletar pq o @DataJpaTest já sobreescreve o banco.
 		
 		//ação
 		boolean resultado = repo.existsByEmail("usuario@email.com");
