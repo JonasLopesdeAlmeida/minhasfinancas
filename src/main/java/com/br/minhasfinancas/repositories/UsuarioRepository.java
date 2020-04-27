@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.br.minhasfinancas.model.Usuario;
 
-public interface UsuarioRepositoty extends JpaRepository<Usuario, Long>{
+public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
    //metodo que verifca a existencia de um email.
 	boolean existsByEmail(String email);

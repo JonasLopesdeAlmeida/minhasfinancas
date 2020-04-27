@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.br.minhasfinancas.model.Usuario;
-import com.br.minhasfinancas.repositories.UsuarioRepositoty;
+import com.br.minhasfinancas.repositories.UsuarioRepository;
 import com.br.minhasfinancas.services.UsuarioService;
 import com.br.minhasfinancas.services.exception.ErrodeAutenticacao;
 import com.br.minhasfinancas.services.exception.RegraNegocioException;
@@ -14,10 +14,10 @@ import com.br.minhasfinancas.services.exception.RegraNegocioException;
 public class UsuarioImpService implements UsuarioService{
 	
 	
-	UsuarioRepositoty repository;
+	UsuarioRepository repository;
 	
     //aqui diz que o usuario so vai acessar com uma instancia de usuariorepository.
-	public UsuarioImpService(UsuarioRepositoty repository) {
+	public UsuarioImpService(UsuarioRepository repository) {
 		super();
 		this.repository = repository;
 	}

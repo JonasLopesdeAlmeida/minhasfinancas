@@ -24,7 +24,7 @@ public class UsuarioRepositoryTest {
 
 	// fazendo a injecao automatica da classe.
 	@Autowired
-	UsuarioRepositoty repo;
+	UsuarioRepository repo;
 	
 	@Autowired
 	//classe responsável por fazer as operações na base de Dados.

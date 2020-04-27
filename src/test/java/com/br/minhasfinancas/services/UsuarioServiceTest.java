@@ -1,25 +1,38 @@
 package com.br.minhasfinancas.services;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.br.minhasfinancas.model.Usuario;
-import com.br.minhasfinancas.repositories.UsuarioRepositoty;
+import com.br.minhasfinancas.repositories.UsuarioRepository;
 import com.br.minhasfinancas.services.exception.RegraNegocioException;
+import com.br.minhasfinancas.services.implementacoes.UsuarioImpService;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+
+//@RunWith(SpringRunner.class) com o mock eu posso elimnar essa anotacao.
 @ActiveProfiles("test")
 public class UsuarioServiceTest {
 	
-	@Autowired
+    //no teste unitatio eu nao vou precisar mais injetar os repositories reais.
 	UsuarioService service;
-	@Autowired
-	UsuarioRepositoty repo;
+	UsuarioRepository repo;
+	
+	@Before //esse metodo vai iniciar antes dos outros.
+	public void setUp() {
+		//criando uma instancia FAKE para melhorar os testes unitários com MOCK. Dessa forma eu nao preciso executar os metodos reais.
+		repo = Mockito.mock(UsuarioRepository.class);
+		service = new UsuarioImpService(repo);
+	
+				
+	}			
+				
+		
+	
 	
 	//@Test para dizer que ele esta esperando uma excecao.
 	//nesse caso quando eu coloco expected = Test.None.class dessa forma eu digo que nao estou esperando nenhuma excecao.
@@ -27,9 +40,9 @@ public class UsuarioServiceTest {
 	public  void deveValidarEmail() {
 		
 		//cenario
-		//para fazer esse cenario eu preciso reber a injecao do meu usuariorepository.
-		//para garantir que nao existe nenhum usuario cadastrado no email.
-		repo.deleteAll();
+	   //quando eu fizer a chamada do mock repository eu veirifico o email com qualquer string eu vou retornar false
+		//ou seja,  ele vai retornar false quando eu passar qualquer string como parametro para email.
+		Mockito.when(repo.existsByEmail(Mockito.anyString())).thenReturn(false);
 		
 		//ação
 		service.validarEmail("email@email.com");
@@ -41,8 +54,7 @@ public class UsuarioServiceTest {
 	public void develancarerrAoValidarEmailquandoexistirEmailCadastrado() {
 		
 		//cenario
-		 Usuario usuario = Usuario.builder().nome("usuario").email("email@email.com").build();
-			repo.save(usuario);
+		Mockito.when(repo.existsByEmail(Mockito.anyString())).thenReturn(true);
 			
 	     //ação		
 		service.validarEmail("email@email.com");
