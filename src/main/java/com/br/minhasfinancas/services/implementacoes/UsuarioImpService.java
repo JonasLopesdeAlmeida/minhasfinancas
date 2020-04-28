@@ -34,7 +34,7 @@ public class UsuarioImpService implements UsuarioService{
 		//tb verificando se a senha nao for igual.
 		if(!usuario.get().getSenha().equals(senha)) {
 			throw new ErrodeAutenticacao("Senha inválida!");
-		}
+		}	
 		
 		return usuario.get();
 	}
