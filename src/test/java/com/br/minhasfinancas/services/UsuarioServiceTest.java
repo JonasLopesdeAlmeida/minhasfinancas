@@ -3,11 +3,11 @@ package com.br.minhasfinancas.services;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,22 +21,57 @@ import com.br.minhasfinancas.services.implementacoes.UsuarioImpService;
 @ActiveProfiles("test")
 public class UsuarioServiceTest {
 
-	// no teste unitatio eu nao vou precisar mais injetar os repositories reais.
-	UsuarioService service;
+	// no teste unitario eu nao vou precisar mais injetar os repositories reais.
+
+	@SpyBean //Spy DIFERENTE DO MOCK ELE CHAMA OS METODOS ORIGINAIS. SENDO QUE EU POSSO DAR UM MOCK EM ALGUM METODO, MAS DIZER EXPLICITAMENTE COMO VAI SER O COMPORTAMENTO DESSE METODO. OU SEJA, SE EU NÃO DISSER ELE CHAMA O MÉTODO ORIGINAL.
+	UsuarioImpService service;
 	// criando uma instancia FAKE para melhorar os testes unitários com MOCK. Dessa
 	// forma eu nao preciso executar os metodos reais.
 	@MockBean // usando o mock como um bean gerenciavel pelo framework
 	UsuarioRepository repo;
 
-	@Before // esse metodo vai iniciar antes dos outros.
-	public void setUp() {
 
-		// Dessa forma, com o mock gerenciavel eu nao preciso mais de ssa linha de
-		// codigo: repo = Mockito.mock(UsuarioRepository.class);
-
-		service = new UsuarioImpService(repo);
-
+	@Test
+	public void deveSalvarUmUsuario() {
+		//cenario
+		//aqui primeiro ele criar um mock do spy de servico, para depois dar um mock no metodooriginal de validaremail.
+		//aqui ele diz para nao fzaer nada quando eu chamar esse metodo.
+		Mockito.doNothing().when(service).validarEmail(Mockito.anyString());
+		Usuario usuario = Usuario.builder()
+				.id(1)
+				.nome("nome")
+				.email("email@email.com")
+				.senha("senha").build();
+		//dando um mock no metodo save.
+		Mockito.when(repo.save(Mockito.any(Usuario.class))).thenReturn(usuario);
+		//ação
+		Usuario usuarioSalvo = service.salvarUsuario(new Usuario());
+		//verificação
+		Assertions.assertThat(usuarioSalvo).isNotNull();
+		Assertions.assertThat(usuarioSalvo.getId()).isEqualTo(1);
+		Assertions.assertThat(usuarioSalvo.getNome()).isEqualTo("nome");
+		Assertions.assertThat(usuarioSalvo.getEmail()).isEqualTo("email@email.com");
+		Assertions.assertThat(usuarioSalvo.getSenha()).isEqualTo("senha");	
 	}
+	
+	//testando cenario que o metodo lança um erro e não salva um usuario.
+	@Test(expected = RegraNegocioException.class)
+	public void naoDeveSalvarUsuarioComEmailJaCadastrado() {
+		
+		//cenario
+		String email = "email@email.com";
+		Usuario usuario = Usuario.builder().email(email ).build();
+		Mockito.doThrow(RegraNegocioException.class).when(service).validarEmail(email );
+	
+	    //ação
+		service.salvarUsuario(usuario);
+		
+		//verificação
+		//aqui se espera que nunca chame o metodo de savar um usuario com o cenario de um email ja cadastrado.
+		Mockito.verify(repo, Mockito.never()).save(usuario);
+	}
+	
+	
 	@Test(expected = Test.None.class)
     public void deveAutenticarUmUsuarioComSucesso() {
     	//cenário
