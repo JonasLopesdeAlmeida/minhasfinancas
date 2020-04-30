@@ -76,25 +76,22 @@ public class LancamentoImpService implements LancamentoService {
 
 			throw new RegraNegocioException("informe um Ano válido");
 		}
-		
-//		if (lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null) {
-//
-//			throw new RegraNegocioException("informe um Usuario");
-//		}
-		
+
+		if (lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null) {
+
+			throw new RegraNegocioException("informe um Usuario");
+		}
+
 		if (lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1) {
 
 			throw new RegraNegocioException("informe um Ano válido");
 		}
-		
+
 		if (lancamento.getTipo() == null) {
 
 			throw new RegraNegocioException("informe um tipo de Lançamento.");
 		}
-		
-		
 
-		
 	}
 
 }
