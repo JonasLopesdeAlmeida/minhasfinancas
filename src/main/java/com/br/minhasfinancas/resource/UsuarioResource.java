@@ -46,7 +46,7 @@ public class UsuarioResource {
 	
 	
 	//ResponseEntity representa o corpo da resposta
-	//@RequestBody exigindo que os dados do usuario bvenham com as propriedades passadas no usuarioDTO.
+	//@RequestBody exigindo que os dados do usuario venham com as propriedades passadas no usuarioDTO.
 	@PostMapping
 	public ResponseEntity salvar( @RequestBody UsuarioDTO dto) {
 		
