@@ -1,5 +1,6 @@
 package com.br.minhasfinancas.services.implementacoes;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import com.br.minhasfinancas.model.Lancamento;
 import com.br.minhasfinancas.model.enums.StatusLancamento;
 import com.br.minhasfinancas.repositories.LancamentoRepository;
 import com.br.minhasfinancas.services.LancamentoService;
+import com.br.minhasfinancas.services.exception.RegraNegocioException;
 
 @Service
 public class LancamentoImpService implements LancamentoService {
@@ -24,12 +26,15 @@ public class LancamentoImpService implements LancamentoService {
 	@Override
 	@Transactional
 	public Lancamento salvar(Lancamento lancamento) {
+		validar(lancamento);
+		lancamento.setStatus(StatusLancamento.PENDENTE);
 		return repo.save(lancamento);
 	}
 
 	@Override
 	@Transactional
 	public Lancamento atualizar(Lancamento lancamento) {
+		validar(lancamento);
 		// pegando o id que vai ser atualizado.
 		Objects.requireNonNull(lancamento.getId());
 		return repo.save(lancamento);
@@ -45,10 +50,8 @@ public class LancamentoImpService implements LancamentoService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Lancamento> buscar(Lancamento lancamentoFiltro) {
-		Example example = Example.of(lancamentoFiltro, ExampleMatcher
-				.matching()
-				.withIgnoreCase()
-				.withStringMatcher(StringMatcher.CONTAINING));
+		Example example = Example.of(lancamentoFiltro,
+				ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING));
 		return repo.findAll(example);
 	}
 
@@ -56,6 +59,42 @@ public class LancamentoImpService implements LancamentoService {
 	public void atualizarStatus(Lancamento lancamento, StatusLancamento status) {
 		lancamento.setStatus(status);
 		atualizar(lancamento);
+	}
+
+	@Override
+	public void validar(Lancamento lancamento) {
+
+		if (lancamento.getDescricao() == null || lancamento.getDescricao().trim().equals("")) {
+
+			throw new RegraNegocioException("informe uma Descrição válida");
+		}
+		if (lancamento.getMes() == null || lancamento.getMes() < 1 || lancamento.getMes() > 12) {
+
+			throw new RegraNegocioException("informe um Mês válido");
+		}
+		if (lancamento.getAno() == null || lancamento.getAno().toString().length() != 4) {
+
+			throw new RegraNegocioException("informe um Ano válido");
+		}
+		
+//		if (lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null) {
+//
+//			throw new RegraNegocioException("informe um Usuario");
+//		}
+		
+		if (lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1) {
+
+			throw new RegraNegocioException("informe um Ano válido");
+		}
+		
+		if (lancamento.getTipo() == null) {
+
+			throw new RegraNegocioException("informe um tipo de Lançamento.");
+		}
+		
+		
+
+		
 	}
 
 }
