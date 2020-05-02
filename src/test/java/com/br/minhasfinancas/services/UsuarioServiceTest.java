@@ -38,7 +38,7 @@ public class UsuarioServiceTest {
 		//aqui ele diz para nao fzaer nada quando eu chamar esse metodo.
 		Mockito.doNothing().when(service).validarEmail(Mockito.anyString());
 		Usuario usuario = Usuario.builder()
-				.id(1)
+				.id(1l)
 				.nome("nome")
 				.email("email@email.com")
 				.senha("senha").build();
@@ -78,7 +78,7 @@ public class UsuarioServiceTest {
 		String email = "email@email.com";
 		String senha = "senha";
 		
-		Usuario usuario = Usuario.builder().email(email).senha(senha).id(1).build();
+		Usuario usuario = Usuario.builder().email(email).senha(senha).id(1l).build();
         Mockito.when(repo.findByEmail(email)).thenReturn(Optional.of(usuario));
 		
 	    //ação
