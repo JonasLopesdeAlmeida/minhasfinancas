@@ -122,7 +122,8 @@ public class LancamentoRepositoryTest {
 		return lancamento;
 	}
 
-	private Lancamento criarLancamento() {
+	 //refatorando esse metodo deixando ele como public static para eu ter acesso a ele la no lancamentorservicetest.
+	public static Lancamento criarLancamento() {
 
 		return Lancamento.builder().ano(2019).mes(1).descricao("lancamento qualquer").valor(BigDecimal.valueOf(10))
 				.tipo(TipoLancamento.RECEITA).status(StatusLancamento.PENDENTE).dataCadastro(LocalDate.now()).build();
