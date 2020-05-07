@@ -80,11 +80,12 @@ public class UsuarioResource {
 		Optional<Usuario> usuario = service.obterPorId(id);
 
 		if (!usuario.isPresent()) {
-
+            //verificando se existe o usuario refeente ao id passado com parametro.
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
-
+        //recebendo id como parametro para obter o saldo.
 		BigDecimal saldo = lancamentoservice.obterSaldoPorUsuario(id);
+		//retornando o corpo do saldo em json.
 		return ResponseEntity.ok(saldo);
 	}
 
