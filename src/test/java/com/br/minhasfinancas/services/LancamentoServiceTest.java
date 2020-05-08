@@ -115,16 +115,50 @@ public class LancamentoServiceTest {
 		
 		//cenario
 		//aqui eu crio um lancamento, porem eu nao tenho ele salvo ainda na base de dados.
-		Lancamento lancamentoSalvar = LancamentoRepositoryTest.criarLancamento();
+		Lancamento lancamento = LancamentoRepositoryTest.criarLancamento();
 	   
 		
 		//ação e verificação
 		// lancaondo a mensagem de erro, pq eu nao tenho esse lancamento salvo.
-		catchThrowableOfType(() -> service.atualizar(lancamentoSalvar), NullPointerException.class);
+		catchThrowableOfType(() -> service.atualizar(lancamento), NullPointerException.class);
 		//aqui ele garante que ele nunca vai chamar o save para o lancamentoSalvar.
 		//dessa forma a exeção vai ficar parada no validar e nao salva o lancamento.
-		Mockito.verify(repo, Mockito.never()).save(lancamentoSalvar);
+		Mockito.verify(repo, Mockito.never()).save(lancamento);
 	
+	}
+	
+	//testes para o método de deletar.
+	@Test
+    public void deveDeletarUmLancamento() {
+		//cenario
+		Lancamento lancamento = LancamentoRepositoryTest.criarLancamento();
+		lancamento.setId(1l);
+		
+		//ação
+		service.deletar(lancamento);
+		
+		//verificação
+		Mockito.verify(repo).delete(lancamento);
+	}
+	
+	@Test
+	//aqui a ideia e testar se realmente ele vai barrar o metodo delete caso eu nao tenha um id. eu nao posso deleter um lancamento que nao esta salvo na base de dados.
+    public void deveLancarErroAoTentarDeletarUmLancamentoQueAindaNaoFoiSalvo() {
+		
+		        //cenario
+				Lancamento lancamento = LancamentoRepositoryTest.criarLancamento();
+				//eu tenho um lancamento criado, porem eu nao tenho id para esse lancamento.
+				
+				//ação
+				//ação e verificação
+				// lancaondo a mensagem de erro, pq eu nao tenho esse lancamento salvo e dessa forma eu nao posso deletar.
+				catchThrowableOfType(() -> service.deletar(lancamento), NullPointerException.class);
+				
+				//verificação
+				//aqui eu estou garantindo que ele nunca chamou o método delete do repositry
+				Mockito.verify(repo, Mockito.never()).delete(lancamento);
+		
+		
 	}
 	
 }
