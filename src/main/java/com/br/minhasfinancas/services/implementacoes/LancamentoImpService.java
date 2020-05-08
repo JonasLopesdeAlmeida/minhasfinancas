@@ -41,12 +41,14 @@ public class LancamentoImpService implements LancamentoService {
 	@Override
 	@Transactional
 	public Lancamento atualizar(Lancamento lancamento) {
-		// validar é o método que verifica se todos os dados foram corretamente
-		// preenchidos.
-		validar(lancamento);
+		
 		// pegando o id que vai ser atualizado.
 		// requireNonNull vai verificar se ele tem um id.
 		Objects.requireNonNull(lancamento.getId());
+		// validar é o método que verifica se todos os dados foram corretamente
+	    // preenchidos.
+	    validar(lancamento);
+		
 		// retornando o método save que tanto salva como atualiza.
 		return repo.save(lancamento);
 	}
