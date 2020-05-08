@@ -3,11 +3,15 @@ package com.br.minhasfinancas.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Example;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -157,8 +161,30 @@ public class LancamentoServiceTest {
 				//verificação
 				//aqui eu estou garantindo que ele nunca chamou o método delete do repositry
 				Mockito.verify(repo, Mockito.never()).delete(lancamento);
-		
-		
+			
 	}
 	
+	 //testes para o método de buscar.
+		@Test
+	    public void deveFiltrarUmLancamento() {
+			//cenario
+			Lancamento lancamento = LancamentoRepositoryTest.criarLancamento();
+			lancamento.setId(1l);
+	        //para esse filtor eu preciso ter uma lista de lancamentos.
+			List<Lancamento> lista = Arrays.asList(lancamento);
+            //quando eu encontrar qualquer objeto example eu devo retornar essa minha lista.
+			Mockito.when(repo.findAll(Mockito.any(Example.class))).thenReturn(lista);
+		     
+			//ação
+			List<Lancamento> resultado = service.buscar(lancamento);
+		
+			//verificação
+			//aqui eu verifico que tenho que ter um lancamento salvo.
+			assertThat(resultado)
+			.isNotEmpty()
+			.hasSize(1)
+			.contains(lancamento);
+			
+		}
+		
 }
