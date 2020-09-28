@@ -70,6 +70,17 @@ public class LancamentoResource {
 	}
 	
 	
+	
+	@GetMapping("{id}")
+	public ResponseEntity obterLancamento(@PathVariable("id") Long id) {
+		
+		return service.obterPorId(id)
+				.map(lancamento -> new ResponseEntity(converter(lancamento), HttpStatus.OK))
+	            .orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
+	}
+	
+	
+	
 	@PostMapping
 	public ResponseEntity salvar(@RequestBody LancamentoDTO dto) {
 
@@ -151,6 +162,23 @@ public class LancamentoResource {
 		//da mesma forma passo a mensagem de erro caso a entidade não for encontrada na base de dados.
 		}).orElseGet(() -> new ResponseEntity("Lançamento não encontrado na base de dados", HttpStatus.BAD_REQUEST));
 	}
+	
+	
+	
+	private LancamentoDTO converter(Lancamento lancamento) {
+		
+		return LancamentoDTO.builder()
+				.id(lancamento.getId())
+				.descricao(lancamento.getDescricao())
+				.valor(lancamento.getValor())
+				.ano(lancamento.getAno())
+				.mes(lancamento.getMes())
+				.status(lancamento.getStatus().name())
+				.tipo(lancamento.getTipo().name())
+				.usuario(lancamento.getUsuario().getId())
+                .build();
+	}
+	
 
 	
 	// esse método converte um objeto para um objetoDto

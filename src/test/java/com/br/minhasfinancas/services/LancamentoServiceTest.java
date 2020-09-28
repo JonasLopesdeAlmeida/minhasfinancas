@@ -56,7 +56,7 @@ public class LancamentoServiceTest {
 
 		Lancamento lancamentoSalvo = LancamentoRepositoryTest.criarLancamento();
 		lancamentoSalvo.setId(1l);
-		lancamentoSalvo.setStatus(StatusLancamento.PENDENTE);
+		lancamentoSalvo.setStatus(StatusLancamento.PENDING);
 		// apos ter impedido de ele retornar o erro do validar
 		// agora quando o lancamentosalvar estiver salvo, eu retorno ele.
 		Mockito.when(repo.save(lancamentoSalvar)).thenReturn(lancamentoSalvo);
@@ -70,7 +70,7 @@ public class LancamentoServiceTest {
 		// ser o o mesmo lancamenosalvo
 		assertThat(lancamento.getId()).isEqualTo(lancamentoSalvo.getId());
 
-		assertThat(lancamento.getStatus()).isEqualTo(StatusLancamento.PENDENTE);
+		assertThat(lancamento.getStatus()).isEqualTo(StatusLancamento.PENDING);
 
 	}
 
@@ -99,7 +99,7 @@ public class LancamentoServiceTest {
 
 		Lancamento lancamentoSalvo = LancamentoRepositoryTest.criarLancamento();
 		lancamentoSalvo.setId(1l);
-		lancamentoSalvo.setStatus(StatusLancamento.PENDENTE);
+		lancamentoSalvo.setStatus(StatusLancamento.PENDING);
 
 		Mockito.doNothing().when(service).validar(lancamentoSalvo);
 
@@ -199,9 +199,9 @@ public class LancamentoServiceTest {
 		Lancamento lancamento = LancamentoRepositoryTest.criarLancamento();
 		lancamento.setId(1l);
 		// RECEBE PENDENTE COMO DEFAULT
-		lancamento.setStatus(StatusLancamento.PENDENTE);
+		lancamento.setStatus(StatusLancamento.PENDING);
 		// E AQUI EU ESTOU MUDANDO PARA UM NOVO STATUS
-		StatusLancamento novoStatus = StatusLancamento.EFETIVADO;
+		StatusLancamento novoStatus = StatusLancamento.CONFIRMED;
 
 		// aqui eu retorno meu atualizar.
 		Mockito.doReturn(lancamento).when(service).atualizar(lancamento);

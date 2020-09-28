@@ -59,6 +59,7 @@ public class UsuarioRepositoryTest {
 		//cenario
 		//eu não preciso mais do cenario de deletar pq o @DataJpaTest já sobreescreve o banco.
 		
+		
 		//ação
 		boolean resultado = repo.existsByEmail("jonas@gmail.com");
 	

@@ -28,12 +28,12 @@ public class UsuarioImpService implements UsuarioService{
 	
 		// verificando agora se esse usuario veio nulo ou preenchido.
 		if(!usuario.isPresent()) {
-			throw new ErrodeAutenticacao("Usuário não encontrado para o email informado!");		
+			throw new ErrodeAutenticacao("The user was not found for the given email!");		
 		}
 		//o metodo get da classe optional retorna o objeto que está lá dentro.
 		//tb verificando se a senha nao for igual.
 		if(!usuario.get().getSenha().equals(senha)) {
-			throw new ErrodeAutenticacao("Senha inválida!");
+			throw new ErrodeAutenticacao("The password is wrong!");
 		}	
 		
 		return usuario.get();

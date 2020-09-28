@@ -100,7 +100,7 @@ public class UsuarioServiceTest {
       
       //verificação 
        Assertions.assertThat(exception).isInstanceOf(ErrodeAutenticacao.class)
-       .hasMessage("Usuário não encontrado para o email informado!");
+       .hasMessage("The user was not found for the given email!");
 	}
 		
 	@Test
@@ -117,7 +117,7 @@ public class UsuarioServiceTest {
 	   //usando funcao lambda para fazer a chamado do metodo.
        //pegando e retornando a instancia da excption que e a mensagem para descobrir qual foi o erro de autenticacao.
         Throwable exception =  Assertions.catchThrowable(()->    service.autenticar("email@email.com", "1234"));
-	    Assertions.assertThat(exception).isInstanceOf(ErrodeAutenticacao.class).hasMessage("Senha inválida!");
+	    Assertions.assertThat(exception).isInstanceOf(ErrodeAutenticacao.class).hasMessage("The password is wrong!");
 	
 	}
 	

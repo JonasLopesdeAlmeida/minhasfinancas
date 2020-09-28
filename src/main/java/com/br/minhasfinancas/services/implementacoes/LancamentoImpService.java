@@ -33,7 +33,7 @@ public class LancamentoImpService implements LancamentoService {
 		// preenchidos.
 		validar(lancamento);
 		// um lançamento já é setado PENDENTE como padrão.
-		lancamento.setStatus(StatusLancamento.PENDENTE);
+		lancamento.setStatus(StatusLancamento.PENDING);
 		// retornando o método save que tanto salva como atualiza.
 		return repo.save(lancamento);
 	}
@@ -146,8 +146,8 @@ public class LancamentoImpService implements LancamentoService {
 	//esse método: obterSaldoPorUsuario, será chamado no UsuarioResource.
 	public BigDecimal obterSaldoPorUsuario(Long id) {
 		//pegando os tipos de lancamentos para efetuar a soma.
-		BigDecimal receitas = repo.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.RECEITA);
-		BigDecimal despesas = repo.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.DESPESA);
+		BigDecimal receitas = repo.obterSaldoPorTipoLancamentoEUsuarioEStatus(id, TipoLancamento.INCOME, StatusLancamento.CONFIRMED);
+		BigDecimal despesas = repo.obterSaldoPorTipoLancamentoEUsuarioEStatus(id, TipoLancamento.EXPENSE, StatusLancamento.CONFIRMED);
 
 		if (receitas == null) {
 			//se a receita for null ela recebe 0

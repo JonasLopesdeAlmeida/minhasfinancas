@@ -82,7 +82,7 @@ public class LancamentoRepositoryTest {
 		lancamento.setAno(2018);
 		lancamento.setDescricao("teste atualizar");
 		lancamento.setMes(2);
-		lancamento.setStatus(StatusLancamento.CANCELADO);
+		lancamento.setStatus(StatusLancamento.CANCELED);
 		// salvando as novas informacoes
 		lancamento = repo.save(lancamento);
 		// buscando o lancamento por id.
@@ -94,7 +94,7 @@ public class LancamentoRepositoryTest {
 		assertThat(lancamentoatualizado.getAno()).isEqualTo(2018);
 		assertThat(lancamentoatualizado.getDescricao()).isEqualTo("teste atualizar");
 		assertThat(lancamentoatualizado.getMes()).isEqualTo(2);
-	    assertThat(lancamentoatualizado.getStatus()).isEqualTo(StatusLancamento.CANCELADO);
+	    assertThat(lancamentoatualizado.getStatus()).isEqualTo(StatusLancamento.CANCELED);
 
 	}
 
@@ -126,7 +126,7 @@ public class LancamentoRepositoryTest {
 	public static Lancamento criarLancamento() {
 
 		return Lancamento.builder().ano(2019).mes(1).descricao("lancamento qualquer").valor(BigDecimal.valueOf(10))
-				.tipo(TipoLancamento.RECEITA).status(StatusLancamento.PENDENTE).dataCadastro(LocalDate.now()).build();
+				.tipo(TipoLancamento.INCOME).status(StatusLancamento.PENDING).dataCadastro(LocalDate.now()).build();
 	}
 
 }
